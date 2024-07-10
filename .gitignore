@@ -1,0 +1,17 @@
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Django stuff:
+staticfiles/
+
+# Environments
+.venv
+venv/
+ENV/
+
+# mypy
+.mypy_cache/
