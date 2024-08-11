@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.urls import path
 from .views import (
     DepartmentListView, DepartmentCreateView, DepartmentUpdateView, DepartmentDeleteView,
@@ -10,31 +11,31 @@ from .views import (
 
 app_name = "emsapp"
 urlpatterns = [
-    path("", DashboardView.as_view(), name="dashboard"),
-    path('departments/', DepartmentListView.as_view(), name='department_list'),
-    path('departments/new/', DepartmentCreateView.as_view(), name='department_create'),
-    path('departments/<int:pk>/edit/', DepartmentUpdateView.as_view(), name='department_update'),
-    path('departments/<int:pk>/delete/', DepartmentDeleteView.as_view(), name='department_delete'),
+    path("", login_required(DashboardView.as_view()), name="dashboard"),
+    path('departments/', login_required(DepartmentListView.as_view()), name='department_list'),
+    path('departments/new/', login_required(DepartmentCreateView.as_view()), name='department_create'),
+    path('departments/<int:pk>/edit/', login_required(DepartmentUpdateView.as_view()), name='department_update'),
+    path('departments/<int:pk>/delete/', login_required(DepartmentDeleteView.as_view()), name='department_delete'),
 
-    path('employees/', EmployeeListView.as_view(), name='employee_list'),
-    path('employees/new/', EmployeeCreateView.as_view(), name='employee_create'),
-    path('employees/<int:pk>/edit/', EmployeeUpdateView.as_view(), name='employee_update'),
-    path('employees/<int:pk>/delete/', EmployeeDeleteView.as_view(), name='employee_delete'),
+    path('employees/', login_required(EmployeeListView.as_view()), name='employee_list'),
+    path('employees/new/', login_required(EmployeeCreateView.as_view()), name='employee_create'),
+    path('employees/<int:pk>/edit/', login_required(EmployeeUpdateView.as_view()), name='employee_update'),
+    path('employees/<int:pk>/delete/', login_required(EmployeeDeleteView.as_view()), name='employee_delete'),
 
-    path('payrolls/', PayRollListView.as_view(), name='payroll_list'),
-    path('payrolls/new/', PayRollCreateView.as_view(), name='payroll_create'),
-    path('payrolls/<int:pk>/edit/', PayRollUpdateView.as_view(), name='payroll_update'),
-    path('payrolls/<int:pk>/delete/', PayRollDeleteView.as_view(), name='payroll_delete'),
+    path('payrolls/', login_required(PayRollListView.as_view()), name='payroll_list'),
+    path('payrolls/new/', login_required(PayRollCreateView.as_view()), name='payroll_create'),
+    path('payrolls/<int:pk>/edit/', login_required(PayRollUpdateView.as_view()), name='payroll_update'),
+    path('payrolls/<int:pk>/delete/', login_required(PayRollDeleteView.as_view()), name='payroll_delete'),
 
-    path('attendances/', AttendanceListView.as_view(), name='attendance_list'),
-    path('attendance/new/', AttendanceCreateView.as_view(), name='attendance_create'),
-    path('attendance/<int:pk>/edit/', AttendanceUpdateView.as_view(), name='attendance_update'),
-    path('attendance/<int:pk>/delete/', AttendanceDeleteView.as_view(), name='attendance_delete'),
+    path('attendances/', login_required(AttendanceListView.as_view()), name='attendance_list'),
+    path('attendance/new/', login_required(AttendanceCreateView.as_view()), name='attendance_create'),
+    path('attendance/<int:pk>/edit/', login_required(AttendanceUpdateView.as_view()), name='attendance_update'),
+    path('attendance/<int:pk>/delete/', login_required(AttendanceDeleteView.as_view()), name='attendance_delete'),
 ]
 
 urlpatterns += [
-    path("leaves", LeaveListView.as_view(), name="leave_list"),
-    path("leave/request/", LeaveCreateView.as_view(), name="leave_create"),
-    path("leave/<int:pk>/edit/", LeaveUpdateView.as_view(), name="leave_update"),
-    path("leaves/<int:pk>/delete/", LeaveDeleteView.as_view(), name="leave_delete"),
+    path("leaves/", login_required(LeaveListView.as_view()), name="leave_list"),
+    path("leave/request/", login_required(LeaveCreateView.as_view()), name="leave_create"),
+    path("leave/<int:pk>/edit/", login_required(LeaveUpdateView.as_view()), name="leave_update"),
+    path("leaves/<int:pk>/delete/", login_required(LeaveDeleteView.as_view()), name="leave_delete"),
 ]
