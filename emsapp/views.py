@@ -56,18 +56,28 @@ class EmployeeCreateView(CreateView):
     template_name = 'emsapp/employee_form.html'
     success_url = reverse_lazy('employee_list')
 
+    def get_success_url(self):
+        messages.success(self.request, 'Employee successfully created.')
+        return reverse("emsapp:employee_list")
+
 
 class EmployeeUpdateView(UpdateView):
     model = Employee
     form_class = EmployeeForm
     template_name = 'emsapp/employee_form.html'
-    success_url = reverse_lazy('employee_list')
+
+    def get_success_url(self):
+        messages.success(self.request, 'Employee successfully updated!')
+        return reverse("emsapp:employee_list")
 
 
 class EmployeeDeleteView(DeleteView):
     model = Employee
-    template_name = 'emsapp/employee_confirm_delete.html'
-    success_url = reverse_lazy('employee_list')
+    template_name = 'utils/delete_confirmation.html'
+
+    def get_success_url(self):
+        messages.success(self.request, 'Employee successfully deleted!')
+        return reverse("emsapp:employee_list")
 
 
 class PayRollListView(ListView):

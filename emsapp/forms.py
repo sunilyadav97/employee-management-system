@@ -17,9 +17,11 @@ class DepartmentForm(forms.ModelForm):
 
 
 class EmployeeForm(forms.ModelForm):
+    dob = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label="Date of birth")
+
     class Meta:
         model = Employee
-        fields = ['user', 'mobile_no', 'dob', 'position', 'department', 'address', 'is_active']
+        fields = ['user', 'mobile_no', 'dob', 'position', 'department', 'address']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

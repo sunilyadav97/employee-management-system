@@ -29,7 +29,7 @@ class Employee(TimeStampedModel):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        self.user.get_full_name()
+        return self.user.get_full_name() if self.user.get_full_name() else self.user.username
 
 
 class PayRoll(TimeStampedModel):
