@@ -11,9 +11,6 @@ class DepartmentForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
-        self.helper.add_input(Submit('submit', 'Save'))
 
 
 class EmployeeForm(forms.ModelForm):
@@ -25,9 +22,7 @@ class EmployeeForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
-        self.helper.add_input(Submit('submit', 'Save'))
+        self.fields['user'].empty_label = 'Select User'
 
 
 class PayRollForm(forms.ModelForm):
@@ -37,9 +32,7 @@ class PayRollForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
-        self.helper.add_input(Submit('submit', 'Save'))
+        self.fields['employee'].empty_label = 'Select Employee'
 
 
 class AttendanceForm(forms.ModelForm):
@@ -51,21 +44,30 @@ class AttendanceForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
-        self.helper.add_input(Submit('submit', 'Save'))
+        self.fields['employee'].empty_label = 'Select Employee'
 
 
 class LeaveForm(forms.ModelForm):
+    LEAVE_TYPE_CHOICES = [
+        ('', 'Select Leave Type'),
+        ('sick', 'Sick Leave'),
+        ('vacation', 'Vacation Leave'),
+        ('casual', 'Casual Leave'),
+        ('maternity', 'Maternity Leave'),
+        ('paternity', 'Paternity Leave'),
+    ]
+
+    leave_type = forms.ChoiceField(choices=LEAVE_TYPE_CHOICES, label='Select Leave Type', required=True)
+    from_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label="From Date")
+    to_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label="To Date")
+
     class Meta:
         model = Leave
-        fields = ['employee', 'leave_type', 'from_date', 'to_date', 'reason', 'is_active']
+        fields = ['employee', 'leave_type', 'from_date', 'to_date', 'reason']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
-        self.helper.add_input(Submit('submit', 'Save'))
+        self.fields['employee'].empty_label = 'Select Employee'
 
 
 class PerformanceForm(forms.ModelForm):
@@ -75,6 +77,3 @@ class PerformanceForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_method = 'post'
-        self.helper.add_input(Submit('submit', 'Save'))

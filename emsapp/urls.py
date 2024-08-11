@@ -7,6 +7,7 @@ from .views import (
     LeaveListView, LeaveCreateView, LeaveUpdateView, LeaveDeleteView,
     PerformanceListView, PerformanceCreateView, PerformanceUpdateView, PerformanceDeleteView, DashboardView
 )
+
 app_name = "emsapp"
 urlpatterns = [
     path("", DashboardView.as_view(), name="dashboard"),
@@ -29,4 +30,11 @@ urlpatterns = [
     path('attendance/new/', AttendanceCreateView.as_view(), name='attendance_create'),
     path('attendance/<int:pk>/edit/', AttendanceUpdateView.as_view(), name='attendance_update'),
     path('attendance/<int:pk>/delete/', AttendanceDeleteView.as_view(), name='attendance_delete'),
+]
+
+urlpatterns += [
+    path("leaves", LeaveListView.as_view(), name="leave_list"),
+    path("leave/request/", LeaveCreateView.as_view(), name="leave_create"),
+    path("leave/<int:pk>/edit/", LeaveUpdateView.as_view(), name="leave_update"),
+    path("leaves/<int:pk>/delete/", LeaveDeleteView.as_view(), name="leave_delete"),
 ]

@@ -1,0 +1,23 @@
+{% extends 'generic_base.html' %} {% load static %} {% load crispy_forms_tags %}
+{% block title %} Leave form{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 m-auto mb-3">
+            <div class="card shadow">
+                <div class="card-header justify-content-between d-flex">
+                    <h3 class="card-title">Add Leave</h3>
+                    <a class="btn btn-dark" href="{% url 'emsapp:leave_list' %}">View Leaves</a>
+                </div>
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
