@@ -38,4 +38,9 @@ urlpatterns += [
     path("leave/request/", login_required(LeaveCreateView.as_view()), name="leave_create"),
     path("leave/<int:pk>/edit/", login_required(LeaveUpdateView.as_view()), name="leave_update"),
     path("leaves/<int:pk>/delete/", login_required(LeaveDeleteView.as_view()), name="leave_delete"),
+
+    path("performances/", login_required(PerformanceListView.as_view()), name="performance_list"),
+    path("performance/new/", login_required(PerformanceCreateView.as_view()), name="performance_create"),
+    path("performance/<int:pk>/", login_required(PerformanceUpdateView.as_view()), name="performance_update"),
+    path("performance/<int:pk>/delete/", login_required(PerformanceDeleteView.as_view()), name="performance_delete"),
 ]

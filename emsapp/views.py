@@ -185,24 +185,32 @@ class LeaveDeleteView(DeleteView):
 class PerformanceListView(ListView):
     model = Performance
     template_name = 'emsapp/performance_list.html'
-    context_object_name = 'performances'
 
 
 class PerformanceCreateView(CreateView):
     model = Performance
     form_class = PerformanceForm
     template_name = 'emsapp/performance_form.html'
-    success_url = reverse_lazy('performance_list')
+
+    def get_success_url(self):
+        messages.success(self.request, 'Performance given successfully!')
+        return reverse("emsapp:performance_list")
 
 
 class PerformanceUpdateView(UpdateView):
     model = Performance
     form_class = PerformanceForm
     template_name = 'emsapp/performance_form.html'
-    success_url = reverse_lazy('performance_list')
+
+    def get_success_url(self):
+        messages.success(self.request, 'Performance updated successfully!')
+        return reverse("emsapp:performance_list")
 
 
 class PerformanceDeleteView(DeleteView):
     model = Performance
-    template_name = 'emsapp/performance_confirm_delete.html'
-    success_url = reverse_lazy('performance_list')
+    template_name = "utils/delete_confirmation.html"
+
+    def get_success_url(self):
+        messages.success(self.request, 'Performance deleted successfully!')
+        return reverse("emsapp:performance_list")

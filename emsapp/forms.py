@@ -73,7 +73,8 @@ class LeaveForm(forms.ModelForm):
 class PerformanceForm(forms.ModelForm):
     class Meta:
         model = Performance
-        fields = ['employee', 'rating', 'comments', 'is_active']
+        fields = ['employee', 'rating', 'comments']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['employee'].empty_label = 'Select Employee'

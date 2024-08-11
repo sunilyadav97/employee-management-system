@@ -1,0 +1,40 @@
+{% extends "generic_base.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12 m-auto">
+            <div class="card shadow">
+                <div class="card-header justify-content-between d-flex">
+                    <h3 class="card-title">Performances</h3>
+                    <a class="btn btn-dark" href="{% url 'emsapp:performance_create' %}">Add Performance</a>
+                </div>
+                <div class="card-body">
+                    <table class="table mt-3">
+                        <thead>
+                        <tr>
+                            <th>S.N.</th>
+                            <th>Employee</th>
+                            <th>Rating</th>
+                            <th>Comment</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for object in object_list %}
+                            <tr>
+                                <td>{{ forloop.counter }}.</td>
+                                <td>{{ object.employee }}</td>
+                                <td>{{ object.rating }}</td>
+                                <td>{{ object.comments }}</td>
+                                <td>
+                                    <a href="{% url 'emsapp:performance_update' pk=object.id %}" class="btn btn-warning">Edit</a>
+                                    <a href="{% url 'emsapp:performance_delete' pk=object.id %}" class="btn btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
