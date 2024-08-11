@@ -26,4 +26,7 @@ urlpatterns = [
     path('payrolls/<int:pk>/delete/', PayRollDeleteView.as_view(), name='payroll_delete'),
 
     path('attendances/', AttendanceListView.as_view(), name='attendance_list'),
+    path('attendance/new/', AttendanceCreateView.as_view(), name='attendance_create'),
+    path('attendance/<int:pk>/edit/', AttendanceUpdateView.as_view(), name='attendance_update'),
+    path('attendance/<int:pk>/delete/', AttendanceDeleteView.as_view(), name='attendance_delete'),
 ]

@@ -53,7 +53,7 @@ class Attendance(TimeStampedModel):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.date
+        return str(self.date)
 
 
 class Leave(TimeStampedModel):

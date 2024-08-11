@@ -117,27 +117,35 @@ class PayRollDeleteView(DeleteView):
 class AttendanceListView(ListView):
     model = Attendance
     template_name = 'emsapp/attendance_list.html'
-    context_object_name = 'attendances'
 
 
 class AttendanceCreateView(CreateView):
     model = Attendance
     form_class = AttendanceForm
     template_name = 'emsapp/attendance_form.html'
-    success_url = reverse_lazy('attendance_list')
+
+    def get_success_url(self):
+        messages.success(self.request, 'Attendance successfully created.')
+        return reverse("emsapp:attendance_list")
 
 
 class AttendanceUpdateView(UpdateView):
     model = Attendance
     form_class = AttendanceForm
     template_name = 'emsapp/attendance_form.html'
-    success_url = reverse_lazy('attendance_list')
+
+    def get_success_url(self):
+        messages.success(self.request, 'Attendance successfully Updated.')
+        return reverse("emsapp:attendance_list")
 
 
 class AttendanceDeleteView(DeleteView):
     model = Attendance
-    template_name = 'emsapp/attendance_confirm_delete.html'
-    success_url = reverse_lazy('attendance_list')
+    template_name = "utils/delete_confirmation.html"
+
+    def get_success_url(self):
+        messages.success(self.request, 'Attendance successfully created.')
+        return reverse("emsapp:attendance_list")
 
 
 class LeaveListView(ListView):

@@ -43,6 +43,8 @@ class PayRollForm(forms.ModelForm):
 
 
 class AttendanceForm(forms.ModelForm):
+    date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), label="Date")
+
     class Meta:
         model = Attendance
         fields = ['employee', 'date', 'is_present', 'is_active']
