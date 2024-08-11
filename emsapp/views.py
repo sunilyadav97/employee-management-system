@@ -1,4 +1,5 @@
-from django.urls import reverse_lazy
+from django.contrib import messages
+from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
 from .models import Department, Employee, PayRoll, Attendance, Leave, Performance
 from .forms import DepartmentForm, EmployeeForm, PayRollForm, AttendanceForm, LeaveForm, PerformanceForm
@@ -18,20 +19,29 @@ class DepartmentCreateView(CreateView):
     model = Department
     form_class = DepartmentForm
     template_name = 'emsapp/department_form.html'
-    success_url = reverse_lazy('department_list')
+
+    def get_success_url(self):
+        messages.success(self.request, 'Department successfully created.')
+        return reverse("emsapp:department_list")
 
 
 class DepartmentUpdateView(UpdateView):
     model = Department
     form_class = DepartmentForm
     template_name = 'emsapp/department_form.html'
-    success_url = reverse_lazy('department_list')
+
+    def get_success_url(self):
+        messages.success(self.request, 'Department successfully updated.')
+        return reverse("emsapp:department_list")
 
 
 class DepartmentDeleteView(DeleteView):
     model = Department
-    template_name = 'emsapp/department_confirm_delete.html'
-    success_url = reverse_lazy('department_list')
+    template_name = 'utils/delete_confirmation.html'
+
+    def get_success_url(self):
+        messages.success(self.request, 'Department successfully deleted!')
+        return reverse("emsapp:department_list")
 
 
 class EmployeeListView(ListView):
