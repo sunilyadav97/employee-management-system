@@ -15,33 +15,37 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'emsapp:department_list' %}">Department</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'emsapp:employee_list' %}">Employee</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'emsapp:payroll_list' %}">PayRoll</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'emsapp:attendance_list' %}">Attendance</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'emsapp:leave_list' %}">Leave</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Performance</a>
-                </li>
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'emsapp:department_list' %}">Department</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'emsapp:employee_list' %}">Employee</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'emsapp:payroll_list' %}">PayRoll</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'emsapp:attendance_list' %}">Attendance</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'emsapp:leave_list' %}">Leave</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Performance</a>
+                    </li>
+                {% endif %}
             </ul>
-            <ul class="navbar-nav mb-2 mb-lg-0 me-1">
-                <li class="nav-item">
-                    <a href="#" class="nav-link">Logout</a>
-                </li>
-            </ul>
+            {% if request.user.is_authenticated %}
+                <ul class="navbar-nav mb-2 mb-lg-0 me-1">
+                    <li class="nav-item">
+                        <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>
+                    </li>
+                </ul>
+            {% endif %}
         </div>
     </div>
 </nav>
