@@ -1,0 +1,40 @@
+{% extends 'generic_base.html' %}
+{% block title %} Department {% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12 m-auto">
+            <div class="card shadow">
+                <div class="card-header justify-content-between d-flex">
+                    <h3 class="card-title">Departments</h3>
+                    <a class="btn btn-dark" href="{% url 'emsapp:department_create' %}">Add Department</a>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">S.N.</th>
+                            <th scope="col">Department Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for object in object_list %}
+                            <tr>
+                                <th>{{ forloop.counter }}.</th>
+                                <td>{{ object }}</td>
+                                <td>{{ object.description }}</td>
+                                <td>
+                                    <a href="{% url 'emsapp:department_update' pk=object.pk %}">Update</a>
+                                    <a href="#">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

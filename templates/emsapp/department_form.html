@@ -1,0 +1,23 @@
+{% extends 'generic_base.html' %} {% load static %} {% load crispy_forms_tags %}
+{% block title %} Department form{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 m-auto">
+            <div class="card">
+                <div class="card-header justify-content-between d-flex">
+                    <h3 class="card-title">Add Department</h3>
+                    <a class="btn btn-dark" href="{% url 'emsapp:department_list' %}">View Department</a>
+                </div>
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
