@@ -42,7 +42,7 @@ class PayRoll(TimeStampedModel):
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        self.employee.user.get_full_name()
+        return str(self.employee.user.get_full_name() if self.employee.user.get_full_name() else self.employee.user)
 
 
 class Attendance(TimeStampedModel):

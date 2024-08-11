@@ -83,27 +83,35 @@ class EmployeeDeleteView(DeleteView):
 class PayRollListView(ListView):
     model = PayRoll
     template_name = 'emsapp/payroll_list.html'
-    context_object_name = 'payrolls'
 
 
 class PayRollCreateView(CreateView):
     model = PayRoll
     form_class = PayRollForm
     template_name = 'emsapp/payroll_form.html'
-    success_url = reverse_lazy('payroll_list')
+
+    def get_success_url(self):
+        messages.success(self.request, 'Payroll successfully created.')
+        return reverse("emsapp:payroll_list")
 
 
 class PayRollUpdateView(UpdateView):
     model = PayRoll
     form_class = PayRollForm
     template_name = 'emsapp/payroll_form.html'
-    success_url = reverse_lazy('payroll_list')
+
+    def get_success_url(self):
+        messages.success(self.request, 'Payroll successfully updated.')
+        return reverse("emsapp:payroll_list")
 
 
 class PayRollDeleteView(DeleteView):
     model = PayRoll
-    template_name = 'emsapp/payroll_confirm_delete.html'
-    success_url = reverse_lazy('payroll_list')
+    template_name = "utils/delete_confirmation.html"
+
+    def get_success_url(self):
+        messages.success(self.request, 'Payroll successfully deleted.')
+        return reverse("emsapp:payroll_list")
 
 
 class AttendanceListView(ListView):
