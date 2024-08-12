@@ -1,8 +1,11 @@
 from django.contrib import messages
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView, DetailView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView, DetailView, View
 from .models import Department, Employee, PayRoll, Attendance, Leave, Performance, Role
-from .forms import DepartmentForm, EmployeeForm, PayRollForm, AttendanceForm, LeaveForm, PerformanceForm
+from .forms import DepartmentForm, EmployeeForm, PayRollForm, AttendanceForm, LeaveForm, PerformanceForm, \
+    UserEmployeeUpdateForm, UserEmployeeCreateForm
 
 
 class DashboardView(TemplateView):
@@ -83,30 +86,51 @@ class UserListView(ListView):
     template_name = 'emsapp/user_list.html'
 
 
-class EmployeeCreateView(CreateView):
-    model = Employee
-    form_class = EmployeeForm
+class UserEmployeeCreateView(View):
     template_name = 'emsapp/employee_form.html'
-    success_url = reverse_lazy('employee_list')
 
-    def get_success_url(self):
-        messages.success(self.request, 'Employee successfully created.')
-        return reverse("emsapp:employee_list")
+    def get(self, request, *args, **kwargs):
+        form = UserEmployeeCreateForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = UserEmployeeCreateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("emsapp:employee_list"))
+        return render(request, self.template_name, {'form': form})
+
+
+class UserEmployeeUpdateView(View):
+    template_name = 'emsapp/employee_form.html'
+
+    def get(self, request, *args, **kwargs):
+        user_id = kwargs.get('pk')
+        user_instance = get_object_or_404(User, pk=user_id)
+        employee_instance = get_object_or_404(Employee, user=user_instance)
+        form = UserEmployeeUpdateForm(instance=employee_instance, user_instance=user_instance)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        user_id = kwargs.get('pk')
+        user_instance = get_object_or_404(User, pk=user_id)
+        employee_instance = get_object_or_404(Employee, user=user_instance)
+        form = UserEmployeeUpdateForm(request.POST, instance=employee_instance, user_instance=user_instance)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("emsapp:employee_list"))
+        return render(request, self.template_name, {'form': form})
+
+
+class EmployeeListView(ListView):
+    model = Employee
+    template_name = 'emsapp/employee_list.html'
+    context_object_name = 'employees'
 
 
 class EmployeeDetailView(DetailView):
     model = Employee
     template_name = 'emsapp/employee_detail.html'
-
-
-class EmployeeUpdateView(UpdateView):
-    model = Employee
-    form_class = EmployeeForm
-    template_name = 'emsapp/employee_form.html'
-
-    def get_success_url(self):
-        messages.success(self.request, 'Employee successfully updated!')
-        return reverse("emsapp:employee_list")
 
 
 class EmployeeDeleteView(DeleteView):

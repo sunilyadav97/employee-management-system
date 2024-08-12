@@ -37,7 +37,7 @@
                                 <td>{{ employee.role.name|default_if_none:'-' }}</td>
                                 <td>{{ employee.department.name }}</td>
                                 <td>{{ employee.position }}</td>
-                                <td>{{ employee.mobile_no }}</td>
+                                <td>{{ employee.mobile_no|default_if_none:"-" }}</td>
                                 <td>{{ employee.user.email }}</td>
                                 <td>
                                     <a href="{% url 'emsapp:employee_update' employee.id %}" class="btn btn-warning">Edit</a>

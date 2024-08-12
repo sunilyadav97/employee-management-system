@@ -7,7 +7,8 @@ from .views import (
     AttendanceListView, AttendanceCreateView, AttendanceUpdateView, AttendanceDeleteView,
     LeaveListView, LeaveCreateView, LeaveUpdateView, LeaveDeleteView,
     PerformanceListView, PerformanceCreateView, PerformanceUpdateView, PerformanceDeleteView, DashboardView,
-    RoleListView, RoleCreateView, RoleUpdateView, RoleDeleteView, EmployeeDetailView
+    RoleListView, RoleCreateView, RoleUpdateView, RoleDeleteView, EmployeeDetailView, UserListView,
+    UserEmployeeCreateView, UserEmployeeUpdateView
 )
 
 app_name = "emsapp"
@@ -23,10 +24,12 @@ urlpatterns = [
     path('department/<int:pk>/edit/', login_required(DepartmentUpdateView.as_view()), name='department_update'),
     path('department/<int:pk>/delete/', login_required(DepartmentDeleteView.as_view()), name='department_delete'),
 
+    path('users/', UserListView.as_view(), name='user_list'),
+    path('employee/new/', UserEmployeeCreateView.as_view(), name='employee_create'),
+    path('employee/<int:pk>/edit/', UserEmployeeUpdateView.as_view(), name='employee_update'),
+
     path('employees/', login_required(EmployeeListView.as_view()), name='employee_list'),
     path('employee/<int:pk>/', login_required(EmployeeDetailView.as_view()), name='employee_detail'),
-    path('employee/new/', login_required(EmployeeCreateView.as_view()), name='employee_create'),
-    path('employee/<int:pk>/edit/', login_required(EmployeeUpdateView.as_view()), name='employee_update'),
     path('employee/<int:pk>/delete/', login_required(EmployeeDeleteView.as_view()), name='employee_delete'),
 
     path('payrolls/', login_required(PayRollListView.as_view()), name='payroll_list'),

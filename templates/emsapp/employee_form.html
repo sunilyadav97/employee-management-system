@@ -2,7 +2,7 @@
 {% block title %} Employee form{% endblock %}
 {% block content %}
     <div class="row">
-        <div class="col-md-8 m-auto mb-3">
+        <div class="col-md-10 m-auto mb-3">
             <div class="card shadow">
                 <div class="card-header justify-content-between d-flex">
                     <h3 class="card-title">Add Employee</h3>
@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <form action="" method="post">
                         {% csrf_token %}
-                        {{ form|crispy }}
+                        {% crispy form %}
                         <div class="d-grid">
                             <button type="submit" class="btn btn-success">Save</button>
                         </div>
