@@ -78,10 +78,9 @@ class DepartmentDeleteView(DeleteView):
         return reverse("emsapp:department_list")
 
 
-class EmployeeListView(ListView):
-    model = Employee
-    template_name = 'emsapp/employee_list.html'
-    context_object_name = 'employees'
+class UserListView(ListView):
+    model = User
+    template_name = 'emsapp/user_list.html'
 
 
 class EmployeeCreateView(CreateView):

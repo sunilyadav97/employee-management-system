@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import path
 from .views import (
     DepartmentListView, DepartmentCreateView, DepartmentUpdateView, DepartmentDeleteView,
-    EmployeeListView, EmployeeCreateView, EmployeeUpdateView, EmployeeDeleteView,
+    EmployeeListView, EmployeeDeleteView,
     PayRollListView, PayRollCreateView, PayRollUpdateView, PayRollDeleteView,
     AttendanceListView, AttendanceCreateView, AttendanceUpdateView, AttendanceDeleteView,
     LeaveListView, LeaveCreateView, LeaveUpdateView, LeaveDeleteView,
