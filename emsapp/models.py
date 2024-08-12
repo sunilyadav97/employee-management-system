@@ -10,6 +10,14 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 
+class Role(TimeStampedModel):
+    name = models.CharField(max_length=50)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Department(TimeStampedModel):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -76,4 +84,3 @@ class Performance(TimeStampedModel):
 
     def __str__(self):
         return self.employee.user.get_full_name()
-    
