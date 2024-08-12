@@ -160,6 +160,11 @@ class EmployeeDeleteView(DeleteView):
     model = Employee
     template_name = 'utils/delete_confirmation.html'
 
+    def form_valid(self, form):
+        object = self.get_object()
+        object.user.delete()
+        return super().form_valid(form)
+
     def get_success_url(self):
         messages.success(self.request, 'Employee successfully deleted!')
         return reverse("emsapp:employee_list")
