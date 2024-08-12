@@ -6,12 +6,17 @@ from .views import (
     PayRollListView, PayRollCreateView, PayRollUpdateView, PayRollDeleteView,
     AttendanceListView, AttendanceCreateView, AttendanceUpdateView, AttendanceDeleteView,
     LeaveListView, LeaveCreateView, LeaveUpdateView, LeaveDeleteView,
-    PerformanceListView, PerformanceCreateView, PerformanceUpdateView, PerformanceDeleteView, DashboardView
+    PerformanceListView, PerformanceCreateView, PerformanceUpdateView, PerformanceDeleteView, DashboardView,
+    RoleListView, RoleCreateView, RoleUpdateView, RoleDeleteView
 )
 
 app_name = "emsapp"
 urlpatterns = [
     path("", login_required(DashboardView.as_view()), name="dashboard"),
+    path('roles/', RoleListView.as_view(), name='role_list'),
+    path('role/new/', RoleCreateView.as_view(), name='role_create'),
+    path('role/<int:pk>/update/', RoleUpdateView.as_view(), name='role_update'),
+    path('role/<int:pk>/delete/', RoleDeleteView.as_view(), name='role_delete'),
     path('departments/', login_required(DepartmentListView.as_view()), name='department_list'),
     path('departments/new/', login_required(DepartmentCreateView.as_view()), name='department_create'),
     path('departments/<int:pk>/edit/', login_required(DepartmentUpdateView.as_view()), name='department_update'),

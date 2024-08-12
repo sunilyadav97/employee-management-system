@@ -1,12 +1,46 @@
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
-from .models import Department, Employee, PayRoll, Attendance, Leave, Performance
+from .models import Department, Employee, PayRoll, Attendance, Leave, Performance, Role
 from .forms import DepartmentForm, EmployeeForm, PayRollForm, AttendanceForm, LeaveForm, PerformanceForm
 
 
 class DashboardView(TemplateView):
     template_name = "emsapp/dashboard.html"
+
+
+class RoleListView(ListView):
+    model = Role
+    template_name = 'emsapp/role_list.html'
+
+
+class RoleCreateView(CreateView):
+    model = Role
+    template_name = 'emsapp/role_form.html'
+    fields = ['name', 'is_active']
+
+    def get_success_url(self):
+        messages.success(self.request, 'Role successfully created.')
+        return reverse("emsapp:role_list")
+
+
+class RoleUpdateView(UpdateView):
+    model = Role
+    template_name = 'emsapp/role_form.html'
+    fields = ['name', 'is_active']
+
+    def get_success_url(self):
+        messages.success(self.request, 'Role successfully updated.')
+        return reverse("emsapp:role_list")
+
+
+class RoleDeleteView(DeleteView):
+    model = Role
+    template_name = "utils/delete_confirmation.html"
+
+    def get_success_url(self):
+        messages.success(self.request, 'Role successfully deleted.')
+        return reverse("emsapp:role_list")
 
 
 class DepartmentListView(ListView):
