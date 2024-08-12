@@ -28,6 +28,7 @@ class Department(TimeStampedModel):
 
 class Employee(TimeStampedModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    role = models.ForeignKey(Role, on_delete=models.SET_NULL, null=True)
     mobile_no = models.CharField(max_length=100, null=True, blank=True)
     dob = models.DateField()
     position = models.CharField(max_length=100, null=True, blank=True)
