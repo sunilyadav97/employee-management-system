@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView, DetailView
 from .models import Department, Employee, PayRoll, Attendance, Leave, Performance, Role
 from .forms import DepartmentForm, EmployeeForm, PayRollForm, AttendanceForm, LeaveForm, PerformanceForm
 
@@ -93,6 +93,11 @@ class EmployeeCreateView(CreateView):
     def get_success_url(self):
         messages.success(self.request, 'Employee successfully created.')
         return reverse("emsapp:employee_list")
+
+
+class EmployeeDetailView(DetailView):
+    model = Employee
+    template_name = 'emsapp/employee_detail.html'
 
 
 class EmployeeUpdateView(UpdateView):

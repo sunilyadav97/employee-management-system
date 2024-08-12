@@ -25,7 +25,15 @@
                         {% for employee in object_list %}
                             <tr>
                                 <td>{{ employee.id }}</td>
-                                <td>{{ employee.user.username }}</td>
+                                <td>
+                                    <a href="{% url 'emsapp:employee_detail' pk=employee.id %}">
+                                        {% if employee.user.get_full_name %}
+                                            {{ employee.user.get_full_name }}
+                                        {% else %}
+                                            {{ employee.user.username }}
+                                        {% endif %}
+                                    </a>
+                                </td>
                                 <td>{{ employee.role.name|default_if_none:'-' }}</td>
                                 <td>{{ employee.department.name }}</td>
                                 <td>{{ employee.position }}</td>
