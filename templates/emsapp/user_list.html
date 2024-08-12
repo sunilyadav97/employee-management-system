@@ -17,7 +17,6 @@
                             <th>Staff Status</th>
                             <th>Super Admin Status</th>
                             <th>Active Status</th>
-                            <th>Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -35,10 +34,6 @@
                                 <td>{{ object.is_staff|yesno|title }}</td>
                                 <td>{{ object.is_superuser|yesno|title }}</td>
                                 <td>{{ object.is_active|yesno|title }}</td>
-                                <td>
-                                    <a href="#" class="btn btn-warning">Edit</a>
-                                    <a href="#" class="btn btn-danger">Delete</a>
-                                </td>
                             </tr>
                         {% endfor %}
                         </tbody>
