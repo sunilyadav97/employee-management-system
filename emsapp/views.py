@@ -2,10 +2,10 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView, DetailView, View
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, TemplateView, DetailView, View, FormView
 from .models import Department, Employee, PayRoll, Attendance, Leave, Performance, Role
 from .forms import DepartmentForm, EmployeeForm, PayRollForm, AttendanceForm, LeaveForm, PerformanceForm, \
-    UserEmployeeUpdateForm, UserEmployeeCreateForm
+    UserEmployeeForm
 
 
 class DashboardView(TemplateView):
@@ -86,40 +86,37 @@ class UserListView(ListView):
     template_name = 'emsapp/user_list.html'
 
 
-class UserEmployeeCreateView(View):
+class UserEmployeeCreateView(FormView):
+    form_class = UserEmployeeForm
     template_name = 'emsapp/employee_form.html'
 
-    def get(self, request, *args, **kwargs):
-        form = UserEmployeeCreateForm()
-        return render(request, self.template_name, {'form': form})
+    def form_valid(self, form):
+        username = form.cleaned_data.get('username')
+        if User.objects.filter(username=username).exists():
+            form.errors['username'] = ['Username already registered.']
+            return self.form_invalid(form)
+        email = form.cleaned_data.get('email')
+        first_name = form.cleaned_data.get('first_name')
+        last_name = form.cleaned_data.get('last_name')
+        password = form.cleaned_data.get('password')
+        user_instance = User.objects.create_user(
+            username=username, email=email, password=password, first_name=first_name, last_name=last_name
+        )
+        if user_instance and not Employee.objects.filter(user=user_instance).exists():
+            employee_object = form.save(commit=False)
+            employee_object.user = user_instance
+            employee_object.save()
+        else:
+            messages.error(self.request, 'This user has already employee profile.')
+        return super().form_valid(form)
 
-    def post(self, request, *args, **kwargs):
-        form = UserEmployeeCreateForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect(reverse("emsapp:employee_list"))
-        return render(request, self.template_name, {'form': form})
+    def get_success_url(self):
+        messages.success(self.request, 'Employee successfully created.')
+        return reverse("emsapp:employee_list")
 
 
-class UserEmployeeUpdateView(View):
+class UserEmployeeUpdateView(TemplateView):
     template_name = 'emsapp/employee_form.html'
-
-    def get(self, request, *args, **kwargs):
-        user_id = kwargs.get('pk')
-        user_instance = get_object_or_404(User, pk=user_id)
-        employee_instance = get_object_or_404(Employee, user=user_instance)
-        form = UserEmployeeUpdateForm(instance=employee_instance, user_instance=user_instance)
-        return render(request, self.template_name, {'form': form})
-
-    def post(self, request, *args, **kwargs):
-        user_id = kwargs.get('pk')
-        user_instance = get_object_or_404(User, pk=user_id)
-        employee_instance = get_object_or_404(Employee, user=user_instance)
-        form = UserEmployeeUpdateForm(request.POST, instance=employee_instance, user_instance=user_instance)
-        if form.is_valid():
-            form.save()
-            return redirect(reverse("emsapp:employee_list"))
-        return render(request, self.template_name, {'form': form})
 
 
 class EmployeeListView(ListView):
