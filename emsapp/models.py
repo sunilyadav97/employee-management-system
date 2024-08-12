@@ -11,7 +11,7 @@ class TimeStampedModel(models.Model):
 
 
 class Role(TimeStampedModel):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
