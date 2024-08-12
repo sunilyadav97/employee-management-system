@@ -33,7 +33,12 @@ class UserEmployeeForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['role'].empty_label = 'Select Role'
         self.fields['department'].empty_label = 'Select Department'
-
+        if self.instance and self.initial:
+            self.fields['username'].initial = self.instance.user.username
+            self.fields['email'].initial = self.instance.user.email
+            self.fields['first_name'].initial = self.instance.user.first_name
+            self.fields['last_name'].initial = self.instance.user.last_name
+            self.fields.pop('password')
         self.helper = FormHelper()
         self.helper.layout = Layout(
             Div(

@@ -115,8 +115,34 @@ class UserEmployeeCreateView(FormView):
         return reverse("emsapp:employee_list")
 
 
-class UserEmployeeUpdateView(TemplateView):
+class UserEmployeeUpdateView(UpdateView):
+    form_class = UserEmployeeForm
+    model = Employee
     template_name = 'emsapp/employee_form.html'
+
+    def form_valid(self, form):
+        self.object = self.get_object()
+        username = form.cleaned_data.get('username')
+        email = form.cleaned_data.get('email')
+        first_name = form.cleaned_data.get('first_name')
+        last_name = form.cleaned_data.get('last_name')
+
+        user_instance = self.object.user
+        if user_instance.username != username:
+            if User.objects.filter(username=username).exists():
+                form.errors['username'] = ['Username already registered.']
+                return self.form_invalid(form)
+            else:
+                user_instance.username = username
+        user_instance.email = email
+        user_instance.first_name = first_name
+        user_instance.last_name = last_name
+        user_instance.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        messages.success(self.request, 'Employee successfully updated.')
+        return reverse("emsapp:employee_list")
 
 
 class EmployeeListView(ListView):
