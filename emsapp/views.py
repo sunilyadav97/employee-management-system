@@ -202,6 +202,12 @@ class PayRollListView(ListView):
     model = PayRoll
     template_name = 'emsapp/payroll_list.html'
 
+    def get_queryset(self):
+        queryset = super().get_queryset().order_by('-month')
+        if self.request.user.employee.role.name == "Employee":
+            queryset = queryset.filter(employee=self.request.user.employee)
+        return queryset
+
 
 class PayRollCreateView(CreateView):
     model = PayRoll
