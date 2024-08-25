@@ -61,6 +61,9 @@ class Attendance(TimeStampedModel):
 
     is_active = models.BooleanField(default=True)
 
+    class Meta:
+        ordering = ['-date']
+
     def __str__(self):
         return str(self.date)
 
