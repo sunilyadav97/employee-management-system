@@ -8,12 +8,13 @@ from .views import (
     LeaveListView, LeaveCreateView, LeaveUpdateView, LeaveDeleteView,
     PerformanceListView, PerformanceCreateView, PerformanceUpdateView, PerformanceDeleteView, DashboardView,
     RoleListView, RoleCreateView, RoleUpdateView, RoleDeleteView, EmployeeDetailView, UserListView,
-    UserEmployeeCreateView, UserEmployeeUpdateView
+    UserEmployeeCreateView, UserEmployeeUpdateView, ProfileView
 )
 
 app_name = "emsapp"
 urlpatterns = [
     path("", login_required(DashboardView.as_view()), name="dashboard"),
+    path("profile/<int:pk>/", login_required(ProfileView.as_view()), name="profile"),
     path('roles/', RoleListView.as_view(), name='role_list'),
     path('role/new/', RoleCreateView.as_view(), name='role_create'),
     path('role/<int:pk>/update/', RoleUpdateView.as_view(), name='role_update'),

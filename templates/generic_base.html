@@ -59,6 +59,9 @@
                     <li class="nav-item">
                         <a href="{% url 'account_change_password' %}" class="nav-link">Change Password</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="{% url 'emsapp:profile' pk=request.user.employee.pk %}" class="nav-link">Profile</a>
+                    </li>
                 </ul>
             {% endif %}
         </div>

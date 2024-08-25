@@ -12,6 +12,19 @@ class DashboardView(TemplateView):
     template_name = "emsapp/dashboard.html"
 
 
+class ProfileView(DetailView):
+    model = Employee
+    template_name = "emsapp/profile.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        if request.user.employee == self.object:
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            messages.warning(request, "Invalid access!")
+            return redirect("emsapp:dashboard")
+
+
 class RoleListView(ListView):
     model = Role
     template_name = 'emsapp/role_list.html'

@@ -1,0 +1,39 @@
+{% extends 'generic_base.html' %}
+{% load crispy_forms_tags %} {% load static %}
+{% block title %} Delete confirmation item {% endblock title %}
+
+{% block content %}
+    <div class="row py-3">
+        <div class="col-md-10 m-auto">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h3 class="card-title fw-semibold">
+                        Profile
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>Name:</strong>
+                        {% if object.user.get_full_name %}
+                            {{ object.user.get_full_name }}
+                        {% else %}
+                            {{ object.user.username }}
+                        {% endif %}
+                    </p>
+                    <p><strong>Email:</strong> {{ object.user.email }}</p>
+                    <p><strong>Mobile No:</strong> {{ object.mobile_no }}</p>
+                    <p><strong>Role:</strong> {{ object.role }}</p>
+                    <p><strong>Date of Birth:</strong> {{ object.dob }}</p>
+                    <p><strong>Position:</strong> {{ object.position }}</p>
+                    <p><strong>Department:</strong> {{ object.department }}</p>
+                    <p><strong>Address:</strong> {{ object.address }}</p>
+                    <p><strong>Status:</strong>  {% if object.is_active %}
+                        <span class="btn btn-success">Active</span>
+                    {% else %}
+                        <span class="btn btn-secondary">Inactive</span>
+                    {% endif %}</p>
+                </div>
+                <div class="card-footer"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
