@@ -150,6 +150,21 @@ class EmployeeListView(ListView):
     template_name = 'emsapp/employee_list.html'
     context_object_name = 'employees'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        name = self.request.GET.get('name')
+        email = self.request.GET.get('email')
+        mobile_no = self.request.GET.get('mobile_no')
+        if name:
+            queryset = queryset.filter(user__first_name__icontains=name)
+
+        if email:
+            queryset = queryset.filter(user__email__icontains=email)
+
+        if mobile_no:
+            queryset = queryset.filter(mobile_no__icontains=mobile_no)
+        return queryset
+
 
 class EmployeeDetailView(DetailView):
     model = Employee
