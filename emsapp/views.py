@@ -206,6 +206,21 @@ class PayRollListView(ListView):
         queryset = super().get_queryset().order_by('-month')
         if self.request.user.employee.role.name == "Employee":
             queryset = queryset.filter(employee=self.request.user.employee)
+
+        name = self.request.GET.get("name")
+        email = self.request.GET.get("email")
+        month = self.request.GET.get("month")
+
+        if name:
+            queryset = queryset.filter(employee__user__first_name__icontains=name)
+
+        if email:
+            queryset = queryset.filter(employee__user__email__icontains=email)
+
+        if month:
+            year, month = month.split('-')
+            queryset = queryset.filter(month__year=year, month__month=month)
+
         return queryset
 
 
