@@ -53,6 +53,15 @@ class PayRoll(TimeStampedModel):
     def __str__(self):
         return str(self.employee.user.get_full_name() if self.employee.user.get_full_name() else self.employee.user)
 
+    @property
+    def get_net_salary(self):
+        return self.basic_salary + self.bonuses - self.deductions
+
+    def save(self, *args, **kwargs):
+        # Automatically calculate net salary before saving
+        self.net_salary = self.get_net_salary
+        super().save(*args, **kwargs)
+
 
 class Attendance(TimeStampedModel):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
