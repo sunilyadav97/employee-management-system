@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -44,9 +46,20 @@ class Employee(TimeStampedModel):
 class PayRoll(TimeStampedModel):
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     basic_salary = models.DecimalField(max_digits=10, decimal_places=2)
-    bonuses = models.DecimalField(max_digits=10, decimal_places=2)
-    deductions = models.DecimalField(max_digits=10, decimal_places=2)
+    bonuses = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    deductions = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    tax_deductions = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+
+    overtime_pay = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    allowances = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     net_salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+    pay_period_start = models.DateField(null=True)
+    pay_period_end = models.DateField(null=True)
+    month = models.DateField(default=date.today)  # Storing month and year
+    status = models.CharField(
+        max_length=20, choices=[('pending', 'Pending'), ('paid', 'Paid'), ('canceled', 'Canceled')], default='pending'
+    )
 
     is_active = models.BooleanField(default=True)
 
@@ -55,7 +68,7 @@ class PayRoll(TimeStampedModel):
 
     @property
     def get_net_salary(self):
-        return self.basic_salary + self.bonuses - self.deductions
+        return self.basic_salary + self.bonuses + self.overtime_pay + self.allowances - self.deductions - self.tax_deductions
 
     def save(self, *args, **kwargs):
         # Automatically calculate net salary before saving
