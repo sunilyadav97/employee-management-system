@@ -16,10 +16,10 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 {% if request.user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="/">Dashboard</a>
+                    </li>
                     {% if request.user.is_superuser %}
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/">Dashboard</a>
-                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'emsapp:role_list' %}">Role</a>
                         </li>
@@ -50,15 +50,29 @@
                 {% endif %}
             </ul>
             {% if request.user.is_authenticated %}
-                <ul class="navbar-nav mb-2 mb-lg-0 me-1">
-                    <li class="nav-item">
-                        <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'account_change_password' %}" class="nav-link">Change Password</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="{% url 'emsapp:profile' pk=request.user.employee.pk %}" class="nav-link">Profile</a>
+                <ul class="navbar-nav mb-2 mb-lg-0 me-5">
+                    <li class="nav-item dropdown me-5">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <span class="text-light"><svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+</svg></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item">
+                                <a href="{% url 'account_logout' %}" class="nav-link">Logout</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'account_change_password' %}" class="nav-link">Change Password</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'emsapp:profile' pk=request.user.employee.pk %}" class="nav-link">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'mfa_index' %}" class="nav-link">Two Factor Auth</a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             {% endif %}
