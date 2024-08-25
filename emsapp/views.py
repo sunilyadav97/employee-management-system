@@ -223,6 +223,12 @@ class AttendanceListView(ListView):
     model = Attendance
     template_name = 'emsapp/attendance_list.html'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.employee.role.name == "Employee":
+            queryset = queryset.filter(employee=self.request.user.employee)
+        return queryset
+
 
 class AttendanceCreateView(CreateView):
     model = Attendance
