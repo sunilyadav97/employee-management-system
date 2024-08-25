@@ -75,13 +75,33 @@ class EmployeeForm(forms.ModelForm):
 
 
 class PayRollForm(forms.ModelForm):
+    month = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+
     class Meta:
         model = PayRoll
-        fields = ['employee', 'basic_salary', 'bonuses', 'deductions', 'net_salary', 'is_active']
+        fields = "__all__"
+        exclude = ['net_salary', 'is_active']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['employee'].empty_label = 'Select Employee'
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            Div(
+                Div('employee', css_class='col-md-6'),
+                Div('basic_salary', css_class='col-md-6'),
+                Div('bonuses', css_class='col-md-6'),
+                Div('deductions', css_class='col-md-6'),
+                Div('tax_deductions', css_class='col-md-6'),
+                Div('overtime_pay', css_class='col-md-6'),
+                Div('allowances', css_class='col-md-6'),
+                Div('month', css_class='col-md-6'),
+                Div('status', css_class='col-md-12'),
+                css_class='row',
+            ),
+        )
+        self.helper.form_tag = False
+        self.helper.disable_csrf = True
 
 
 class AttendanceForm(forms.ModelForm):
