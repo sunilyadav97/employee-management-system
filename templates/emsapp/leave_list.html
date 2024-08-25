@@ -60,6 +60,7 @@
                             <th>From Date</th>
                             <th>To Date</th>
                             <th>reason</th>
+                            <th>Status</th>
                             {% if request.user.is_superuser or request.user.employee.role.name == "HR Manager" %}
                                 <th>Actions</th>
                             {% endif %}
@@ -74,6 +75,15 @@
                                 <td>{{ object.from_date }}</td>
                                 <td>{{ object.to_date }}</td>
                                 <td>{{ object.reason }}</td>
+                                <td>
+                                    {% if object.status == "PENDING" %}
+                                        <span class="btn btn-warning">Pending</span>
+                                    {% elif object.status == "APPROVED" %}
+                                        <span class="btn btn-success">Approved</span>
+                                    {% else %}
+                                        <span class="btn btn-danger">Rejected</span>
+                                    {% endif %}
+                                </td>
                                 {% if request.user.is_superuser or request.user.employee.role.name == "HR Manager" %}
                                     <td>
                                         <a href="{% url 'emsapp:leave_update' object.id %}"
