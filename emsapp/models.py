@@ -46,7 +46,7 @@ class PayRoll(TimeStampedModel):
     basic_salary = models.DecimalField(max_digits=10, decimal_places=2)
     bonuses = models.DecimalField(max_digits=10, decimal_places=2)
     deductions = models.DecimalField(max_digits=10, decimal_places=2)
-    net_salary = models.DecimalField(max_digits=10, decimal_places=2)
+    net_salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
     is_active = models.BooleanField(default=True)
 
