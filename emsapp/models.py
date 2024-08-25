@@ -97,11 +97,17 @@ class Attendance(TimeStampedModel):
 
 
 class Leave(TimeStampedModel):
+    LEAVE_STATUS_CHOICES = [
+        ('PENDING', 'Pending'),
+        ('APPROVED', 'Approved'),
+        ('REJECTED', 'Rejected'),
+    ]
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     leave_type = models.CharField(max_length=100)
     from_date = models.DateField()
     to_date = models.DateField()
     reason = models.TextField()
+    status = models.CharField(max_length=10, choices=LEAVE_STATUS_CHOICES, default='PENDING')
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
