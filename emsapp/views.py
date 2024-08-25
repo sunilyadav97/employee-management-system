@@ -11,6 +11,28 @@ from .forms import DepartmentForm, EmployeeForm, PayRollForm, AttendanceForm, Le
 class DashboardView(TemplateView):
     template_name = "emsapp/dashboard.html"
 
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['role_count'] = Role.objects.filter(is_active=True).count()
+        ctx['department_count'] = Department.objects.all().count()
+        ctx['employee_count'] = Employee.objects.all().count()
+        user_role = self.request.user.employee.role.name
+        user = self.request.user
+        if user.is_superuser or user_role == "HR Manager":
+            ctx['attendance_count'] = Attendance.objects.filter(is_active=True).count()
+            ctx['leave_count'] = Leave.objects.all().count()
+            ctx['performance_count'] = Performance.objects.filter(is_active=True).count()
+        else:
+            ctx['attendance_count'] = Attendance.objects.filter(employee=user.employee, is_active=True).count()
+            ctx['leave_count'] = Leave.objects.filter(employee=user.employee).count()
+            ctx['performance_count'] = Performance.objects.filter(employee=user.employee, is_active=True).count()
+
+        if user.is_superuser or user_role == "HR Manager" or user_role == "Payroll Manager":
+            ctx['payroll_count'] = PayRoll.objects.filter(is_active=True).count()
+        else:
+            ctx['payroll_count'] = PayRoll.objects.filter(employee=user.employee, is_active=True).count()
+        return ctx
+
 
 class ProfileView(DetailView):
     model = Employee

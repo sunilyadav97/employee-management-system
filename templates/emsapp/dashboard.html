@@ -1,13 +1,25 @@
 {% extends 'generic_base.html' %} {% load static %}
 {% block title %} Dashboard {% endblock %}
 {% block content %}
-	<section>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-10 m-auto">
-                <h3>Dashboard</h3>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 m-auto">
+
+                </div>
             </div>
         </div>
-    </div>
     </section>
+    {% if request.user.is_superuser %}
+    {% include "emsapp/dashboard/admin_dashboard.html" %}
+
+    {% elif request.user.employee.role.name == "HR Manager" %}
+    {% include "emsapp/dashboard/hr_dashboard.html" %}
+
+    {% elif request.user.employee.role.name == "Payroll Manager" %}
+    {% include "emsapp/dashboard/payroll_dashboard.html" %}
+    
+    {% elif request.user.employee.role.name == "Employee" %}
+        {% include "emsapp/dashboard/employee_dashboard.html" %}
+    {% endif %}
 {% endblock %}
