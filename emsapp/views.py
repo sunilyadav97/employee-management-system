@@ -276,6 +276,26 @@ class LeaveListView(ListView):
     model = Leave
     template_name = 'emsapp/leave_list.html'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        if self.request.user.employee.role.name == "Employee":
+            queryset = queryset.filter(employee=self.request.user.employee)
+
+        name = self.request.GET.get('name')
+        email = self.request.GET.get('email')
+        from_date = self.request.GET.get('from_date')
+        to_date = self.request.GET.get('to_date')
+
+        if name:
+            queryset = queryset.filter(employee__user__first_name__icontains=name)
+
+        if email:
+            queryset = queryset.filter(employee__user__first_email__icontains=email)
+
+        if from_date and to_date:
+            queryset = queryset.filter(from_date=from_date, to_date=to_date)
+        return queryset
+
 
 class LeaveCreateView(CreateView):
     model = Leave
@@ -338,3 +358,10 @@ class PerformanceDeleteView(DeleteView):
     def get_success_url(self):
         messages.success(self.request, 'Performance deleted successfully!')
         return reverse("emsapp:performance_list")
+
+
+# Employee Section
+
+class EMPLeaveListView(ListView):
+    model = Leave
+    template_name = "emsapp/employee/leave_list.html"
