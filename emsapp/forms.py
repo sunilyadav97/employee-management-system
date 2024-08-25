@@ -89,7 +89,7 @@ class AttendanceForm(forms.ModelForm):
 
     class Meta:
         model = Attendance
-        fields = ['employee', 'date', 'is_present', 'is_active']
+        fields = ['employee', 'date', 'is_present']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
