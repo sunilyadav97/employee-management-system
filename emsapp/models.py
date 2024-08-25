@@ -61,6 +61,11 @@ class PayRoll(TimeStampedModel):
 
     is_active = models.BooleanField(default=True)
 
+    def save(self, *args, **kwargs):
+        # Automatically calculate net salary before saving
+        self.net_salary = self.get_net_salary
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return str(self.employee.user.get_full_name() if self.employee.user.get_full_name() else self.employee.user)
 
@@ -68,10 +73,13 @@ class PayRoll(TimeStampedModel):
     def get_net_salary(self):
         return self.basic_salary + self.bonuses + self.overtime_pay + self.allowances - self.deductions - self.tax_deductions
 
-    def save(self, *args, **kwargs):
-        # Automatically calculate net salary before saving
-        self.net_salary = self.get_net_salary
-        super().save(*args, **kwargs)
+    @property
+    def get_month_name(self):
+        return self.month.strftime('%B')
+
+    @property
+    def get_year(self):
+        return self.month.year
 
 
 class Attendance(TimeStampedModel):
