@@ -7,7 +7,7 @@
                     <h3 class="card-title">Leaves</h3>
                     {% if request.user.is_superuser or request.user.employee.role.name == "HR Manager" %}
                         <a class="btn btn-dark" href="{% url 'emsapp:leave_create' %}">Add Leave</a>
-                    {% elif request.user.employee.role.name == "Employee" %}
+                    {% else %}
                         <a class="btn btn-dark" href="{% url 'emsapp:emp_apply_leave' pk=request.user.employee.pk %}">Apply
                             Leave</a>
                     {% endif %}

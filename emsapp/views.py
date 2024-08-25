@@ -238,7 +238,8 @@ class AttendanceListView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.request.user.employee.role.name == "Employee":
+        user_role = self.request.user.employee.role.name
+        if user_role == "Employee" or user_role == "Payroll Manager":
             queryset = queryset.filter(employee=self.request.user.employee)
 
         name = self.request.GET.get('name')
@@ -291,7 +292,9 @@ class LeaveListView(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        if self.request.user.employee.role.name == "Employee":
+
+        user_role = self.request.user.employee.role.name
+        if user_role == "Employee" or user_role == "Payroll Manager":
             queryset = queryset.filter(employee=self.request.user.employee)
 
         name = self.request.GET.get('name')
