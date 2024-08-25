@@ -54,8 +54,6 @@ class PayRoll(TimeStampedModel):
     allowances = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     net_salary = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
 
-    pay_period_start = models.DateField(null=True)
-    pay_period_end = models.DateField(null=True)
     month = models.DateField(default=date.today)  # Storing month and year
     status = models.CharField(
         max_length=20, choices=[('pending', 'Pending'), ('paid', 'Paid'), ('canceled', 'Canceled')], default='pending'
