@@ -5,7 +5,12 @@
             <div class="card shadow">
                 <div class="card-header justify-content-between d-flex">
                     <h3 class="card-title">Leaves</h3>
-                    <a class="btn btn-dark" href="{% url 'emsapp:leave_create' %}">Apply Leave</a>
+                    {% if request.user.is_superuser or request.user.employee.role.name == "HR Manager" %}
+                        <a class="btn btn-dark" href="{% url 'emsapp:leave_create' %}">Add Leave</a>
+                    {% elif request.user.employee.role.name == "Employee" %}
+                        <a class="btn btn-dark" href="{% url 'emsapp:emp_apply_leave' pk=request.user.employee.pk %}">Apply
+                            Leave</a>
+                    {% endif %}
                 </div>
                 <div class="card-body">
 

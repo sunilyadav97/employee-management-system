@@ -1,0 +1,45 @@
+{% extends 'generic_base.html' %} {% load static %} {% load crispy_forms_tags %}
+{% block title %} Leave form{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-8 m-auto mb-3">
+            <div class="card shadow">
+                <div class="card-header justify-content-between d-flex">
+                    <h3 class="card-title">Apply Leave</h3>
+                </div>
+                <div class="card-body">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div>
+                            <div class="mb-3">
+                                <select class="form-select required" aria-label="Select Leave Type" name="leave_type" required>
+                                    <option selected disabled>Select Leave Type</option>
+                                    <option value="sick">Sick Leave</option>
+                                    <option value="vacation">Vacation Leave</option>
+                                    <option value="casual">Casual Leave</option>
+                                    <option value="maternity">Maternity Leave</option>
+                                    <option value="paternity">Paternity Leave</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="from_date" class="form-label required">From Date</label>
+                                <input type="date" class="form-control" id="from_date" name="from_date" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="to_date" class="form-label required">To Date</label>
+                                <input type="date" class="form-control" id="to_date" name="to_date" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="reason" class="form-label required" >Reason</label>
+                                <textarea class="form-control" id="reason" rows="3" name="reason" required></textarea>
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

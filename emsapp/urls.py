@@ -8,7 +8,7 @@ from .views import (
     LeaveListView, LeaveCreateView, LeaveUpdateView, LeaveDeleteView,
     PerformanceListView, PerformanceCreateView, PerformanceUpdateView, PerformanceDeleteView, DashboardView,
     RoleListView, RoleCreateView, RoleUpdateView, RoleDeleteView, EmployeeDetailView, UserListView,
-    UserEmployeeCreateView, UserEmployeeUpdateView, ProfileView
+    UserEmployeeCreateView, UserEmployeeUpdateView, ProfileView, emp_apply_leave_view
 )
 
 app_name = "emsapp"
@@ -54,4 +54,8 @@ urlpatterns += [
     path("performance/new/", login_required(PerformanceCreateView.as_view()), name="performance_create"),
     path("performance/<int:pk>/", login_required(PerformanceUpdateView.as_view()), name="performance_update"),
     path("performance/<int:pk>/delete/", login_required(PerformanceDeleteView.as_view()), name="performance_delete"),
+]
+
+urlpatterns += [
+    path("employee/<int:pk>/apply-leave/", login_required(emp_apply_leave_view), name="emp_apply_leave"),
 ]

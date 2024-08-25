@@ -362,6 +362,24 @@ class PerformanceDeleteView(DeleteView):
 
 # Employee Section
 
-class EMPLeaveListView(ListView):
-    model = Leave
-    template_name = "emsapp/employee/leave_list.html"
+def emp_apply_leave_view(request, pk):
+    employee = get_object_or_404(Employee, pk=pk)
+    if request.method == 'POST':
+        leave_type = request.POST.get("leave_type")
+        from_date = request.POST.get("from_date")
+        to_date = request.POST.get("to_date")
+        reason = request.POST.get("reason")
+
+        if leave_type and from_date and to_date and reason:
+            instance = Leave.objects.create(
+                employee=employee,
+                leave_type=leave_type,
+                from_date=from_date,
+                to_date=to_date,
+                reason=reason
+            )
+            if instance:
+                messages.success(request, "Leave applied successfully!")
+                return redirect("emsapp:leave_list")
+
+    return render(request, "emsapp/employee/leave_form.html", {'employee': employee})
