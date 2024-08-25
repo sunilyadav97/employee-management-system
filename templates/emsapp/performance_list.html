@@ -5,7 +5,9 @@
             <div class="card shadow">
                 <div class="card-header justify-content-between d-flex">
                     <h3 class="card-title">Performances</h3>
+                    {% if request.user.is_superuser or request.user.employee.role.name == "HR Manager" %}
                     <a class="btn btn-dark" href="{% url 'emsapp:performance_create' %}">Add Performance</a>
+                    {% endif %}
                 </div>
                 <div class="card-body">
                     <table class="table mt-3">
@@ -15,7 +17,10 @@
                             <th>Employee</th>
                             <th>Rating</th>
                             <th>Comment</th>
+                            <th>Added on</th>
+                            {% if request.user.is_superuser or request.user.employee.role.name == "HR Manager" %}
                             <th>Actions</th>
+                            {% endif %}
                         </tr>
                         </thead>
                         <tbody>
@@ -25,10 +30,15 @@
                                 <td>{{ object.employee }}</td>
                                 <td>{{ object.rating }}</td>
                                 <td>{{ object.comments }}</td>
-                                <td>
-                                    <a href="{% url 'emsapp:performance_update' pk=object.id %}" class="btn btn-warning">Edit</a>
-                                    <a href="{% url 'emsapp:performance_delete' pk=object.id %}" class="btn btn-danger">Delete</a>
-                                </td>
+                                <td>{{ object.created_at|date }}</td>
+                                {% if request.user.is_superuser or request.user.employee.role.name == "HR Manager" %}
+                                    <td>
+                                        <a href="{% url 'emsapp:performance_update' pk=object.id %}"
+                                           class="btn btn-warning">Edit</a>
+                                        <a href="{% url 'emsapp:performance_delete' pk=object.id %}"
+                                           class="btn btn-danger">Delete</a>
+                                    </td>
+                                {% endif %}
                             </tr>
                         {% endfor %}
                         </tbody>
