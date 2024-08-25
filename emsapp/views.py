@@ -240,6 +240,19 @@ class AttendanceListView(ListView):
         queryset = super().get_queryset()
         if self.request.user.employee.role.name == "Employee":
             queryset = queryset.filter(employee=self.request.user.employee)
+
+        name = self.request.GET.get('name')
+        email = self.request.GET.get('email')
+        date = self.request.GET.get('date')
+
+        if name:
+            queryset = queryset.filter(employee__user__first_name__icontains=name)
+
+        if email:
+            queryset = queryset.filter(employee__user__email__icontains=email)
+
+        if date:
+            queryset = queryset.filter(date=date)
         return queryset
 
 
