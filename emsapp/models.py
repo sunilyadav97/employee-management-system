@@ -21,7 +21,7 @@ class Role(TimeStampedModel):
 
 
 class Department(TimeStampedModel):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     description = models.TextField()
 
     def __str__(self):
