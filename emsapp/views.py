@@ -280,7 +280,7 @@ class AttendanceListView(ListView):
     template_name = 'emsapp/attendance_list.html'
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().order_by('-date')
         user_role = self.request.user.employee.role.name
         if user_role == "Employee" or user_role == "Payroll Manager":
             queryset = queryset.filter(employee=self.request.user.employee)
