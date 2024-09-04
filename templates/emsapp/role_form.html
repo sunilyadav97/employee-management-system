@@ -1,11 +1,17 @@
 {% extends 'generic_base.html' %} {% load static %} {% load crispy_forms_tags %}
-{% block title %} Performance form{% endblock %}
+{% block title %} Role form{% endblock %}
 {% block content %}
     <div class="row">
         <div class="col-md-8 m-auto mb-3">
             <div class="card shadow">
                 <div class="card-header justify-content-between d-flex">
-                    <h3 class="card-title">Add Role</h3>
+                    <h3 class="card-title">
+                        {% if object %}
+                            Update Role
+                        {% else %}
+                        Add Role
+                        {% endif %}
+                    </h3>
                     <a class="btn btn-dark" href="{% url 'emsapp:role_list' %}">View Roles</a>
                 </div>
                 <div class="card-body">

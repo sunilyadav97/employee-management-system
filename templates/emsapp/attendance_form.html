@@ -5,7 +5,13 @@
         <div class="col-md-8 m-auto mb-3">
             <div class="card shadow">
                 <div class="card-header justify-content-between d-flex">
-                    <h3 class="card-title">Add Attendance</h3>
+                    <h3 class="card-title">
+                        {% if object %}
+                            Update Attendance
+                        {% else %}
+                        Add Attendance
+                        {% endif %}
+                    </h3>
                     <a class="btn btn-dark" href="{% url 'emsapp:employee_list' %}">View Attendances</a>
                 </div>
                 <div class="card-body">
