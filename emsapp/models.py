@@ -90,6 +90,7 @@ class Attendance(TimeStampedModel):
     is_active = models.BooleanField(default=True)
 
     class Meta:
+        unique_together = ['employee', 'date', 'is_present']
         ordering = ['-date']
 
     def __str__(self):
