@@ -61,6 +61,9 @@ class PayRoll(TimeStampedModel):
 
     is_active = models.BooleanField(default=True)
 
+    class Meta:
+        unique_together = ['employee', 'month', 'status']
+
     def save(self, *args, **kwargs):
         # Automatically calculate net salary before saving
         self.net_salary = self.get_net_salary
